@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Question 💬</title>
+<style>
+  :root{
+    --bg:#0f172a;
+    --accent:#ff6b81;
+    --muted:#9aa4b2;
+  }
+  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;}
+  body{
+    background: radial-gradient(circle at 10% 10%, rgba(255,107,129,0.08), transparent 10%),
+                linear-gradient(180deg,#061021 0%, #081427 100%);
+    color:#e6eef6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .card{
+    width:min(720px,92vw);
+    padding:36px;
+    border-radius:14px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .typewriter{
+    font-size:clamp(20px,4vw,34px);
+    line-height:1.2;
+    min-height:3.1em;
+    color:var(--bg);
+    background: linear-gradient(90deg, #fff, #ffe6f0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display:inline-block;
+    padding:8px 20px;
+    border-radius:10px;
+    background-color: rgba(255,255,255,0.03);
+  }
+  .controls{margin-top:28px;}
+  .btn{
+    cursor:pointer;
+    background:linear-gradient(90deg,var(--accent),#ff9bb3);
+    border:none;
+    color:#071021;
+    font-weight:700;
+    padding:12px 20px;
+    border-radius:999px;
+    box-shadow:0 6px 18px rgba(255,107,129,0.15);
+    transition:transform .18s ease, opacity .18s;
+    text-decoration:none;
+    display:inline-block;
+  }
+  .btn:active{transform:translateY(2px);} 
+  .muted{color:var(--muted); font-size:14px; margin-top:12px; display:block}
+  /* blinking caret */
+  .caret{display:inline-block;width:8px;height:1.05em;background:var(--accent);margin-left:6px;vertical-align:middle;animation:blink 1s steps(2) infinite;}
+  @keyframes blink{0%{opacity:1}50%{opacity:0}100%{opacity:1}}
+</style>
+</head>
+<body>
+  <div class="card" role="main">
+    <div id="text" class="typewriter" aria-live="polite"></div><span class="caret" id="caret"></span>
+    <div class="controls">
+      <a id="nextBtn" class="btn" href="page2.html" style="display:none">Next →</a>
+      <div id="hint" class="muted">(Click Next after the message finishes)</div>
+    </div>
+  </div>
+
+<script>
+  // Typewriter text
+  const content = "Hey bby, will you be my gf?";
+  const el = document.getElementById('text');
+  const caret = document.getElementById('caret');
+  let i = 0;
+  const speed = 90; // ms per char
+
+  function type(){
+    if(i < content.length){
+      el.textContent += content.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    } else {
+      // finished
+      caret.style.display = 'none';
+      document.getElementById('nextBtn').style.display = 'inline-block';
+      document.getElementById('hint').textContent = '(Click Next)';
+    }
+  }
+  // start after small delay
+  setTimeout(type, 600);
+</script>
+</body>
+</html>

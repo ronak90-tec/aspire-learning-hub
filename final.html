@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Congratulations ❤️</title>
+<style>
+  html,body{height:100%;margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#ffedf1,#fff5f9);} 
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;position:relative;overflow:hidden;}
+  h1{font-size:clamp(24px,5vw,48px);margin:10px 0;color:#3b0523}
+  p{color:#6b3a4b;margin:0 0 16px;font-size:18px}
+  .sub{color:#8a556b;font-size:15px}
+
+  /* hearts */
+  .heart {
+    position:absolute;
+    width:28px;height:28px;
+    background:linear-gradient(180deg,#ff6b81,#ff9bb3);
+    transform:rotate(-45deg);
+    left:50%;
+    opacity:0.95;
+    border-radius:4px 4px 0 0;
+    box-shadow: 0 6px 16px rgba(255,107,129,0.18);
+    animation:rise 4s linear infinite;
+  }
+  .heart:before,
+  .heart:after{
+    content:"";
+    position:absolute;
+    width:28px;height:28px;
+    background:linear-gradient(180deg,#ff6b81,#ff9bb3);
+    border-radius:50%;
+  }
+  .heart:before{top:-14px;left:0}
+  .heart:after{left:14px;top:0}
+
+  @keyframes rise {
+    0% { transform: translate(calc(-50% + 0px), 40vh) rotate(-45deg) scale(.9); opacity:0 }
+    10% { opacity:1 }
+    100% { transform: translate(calc(-50% + var(--x,0px)), -120vh) rotate(-45deg) scale(1.1); opacity:0 }
+  }
+
+  .button{
+    margin-top:18px;padding:10px 18px;border-radius:999px;background:#ff6b81;color:white;border:none;cursor:pointer;font-weight:700;
+    box-shadow: 0 8px 26px rgba(255,107,129,0.18);
+  }
+
+  /* confetti-like small hearts behind */
+  .bg{position:absolute;inset:0;pointer-events:none}
+</style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-live="polite">
+    <h1>Congratulations — now you're mine ❤️</h1>
+    <p>I'm so happy you said yes. Welcome to the club of cuteness! 💘</p>
+    <button class="button" onclick="again()">Play again</button>
+  </div>
+
+  <div class="bg" id="bg"></div>
+
+<script>
+  // Generate many hearts with random starting positions and delays
+  const bg = document.getElementById('bg');
+
+  function spawnHeart(i){
+    const h = document.createElement('div');
+    h.className = 'heart';
+    // random horizontal offset
+    const x = Math.floor((Math.random()*140) - 70); // -70px to +70px
+    h.style.setProperty('--x', x + 'px');
+    // place at random left percentage
+    const left = Math.floor(Math.random()*100);
+    h.style.left = left + '%';
+    // random size
+    const size = Math.random()*20 + 18;
+    h.style.width = size + 'px';
+    h.style.height = size + 'px';
+    h.style.transform = 'rotate(-45deg)';
+    // stagger animation
+    h.style.animationDelay = (Math.random()*3) + 's';
+    h.style.opacity = Math.random()*0.6 + 0.4;
+    bg.appendChild(h);
+    // remove after animation to keep DOM clean
+    setTimeout(()=> h.remove(), 8000);
+  }
+
+  // spawn multiple occasionally
+  setInterval(()=> {
+    for(let i=0;i<3;i++) spawnHeart(i);
+  }, 650);
+
+  // initial burst
+  for(let i=0;i<8;i++) spawnHeart(i);
+
+  function again(){
+    window.location.href = 'index.html';
+  }
+</script>
+</body>
+</html>

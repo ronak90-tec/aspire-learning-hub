@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Answer me 💞</title>
+<style>
+  :root{
+    --bg:#071027;
+    --card:#071a2b;
+    --accent:#ff6b81;
+    --yes:#9bffde;
+  }
+  html,body{height:100%;margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;}
+  body{
+    background: radial-gradient(circle at 30% 10%, rgba(255,107,129,0.06), transparent 6%),
+               linear-gradient(180deg,#071021 0%, #04111a 100%);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .panel{
+    width:min(680px,94vw);
+    padding:36px;
+    border-radius:14px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    text-align:center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    position:relative;
+    overflow:hidden;
+  }
+  h1{margin:6px 0 18px;font-size:clamp(20px,4vw,32px)}
+  p{color:#c7d3e0;margin:0 0 18px}
+  .buttons{display:flex;gap:18px;justify-content:center;align-items:center;margin-top:10px;}
+  .btn{
+    padding:12px 20px;border-radius:999px;border:none;font-weight:700;cursor:pointer;
+    color:#041021;background:linear-gradient(90deg,#fff1, #fff1);backdrop-filter: blur(4px);
+    transition:transform .12s ease, box-shadow .12s;
+    position:relative; z-index:2;
+  }
+  .btn:active{transform:translateY(2px)}
+  .yes{
+    background: linear-gradient(90deg,#9bffde,#59ffc1);
+    color:#052a22;
+  }
+  .no{
+    background: linear-gradient(90deg,#ffd6e1,#ff9bb3);
+    color:#2b0712;
+    width:110px;
+    height:48px;
+  }
+
+  /* floating animation for NO */
+  @keyframes floatish {
+    0% { transform: translate(0,0) }
+    25% { transform: translate(18px,-10px) }
+    50% { transform: translate(-16px,6px) }
+    75% { transform: translate(12px,10px) }
+    100% { transform: translate(0,0) }
+  }
+  .no.floating{
+    animation: floatish 2.2s ease-in-out infinite;
+  }
+
+  /* small playful hint */
+  .hint{color:#b7c7d8;margin-top:14px;font-size:14px}
+</style>
+</head>
+<body>
+  <div class="panel">
+    <h1>So... what's your answer?</h1>
+    <p>Choose carefully ♥</p>
+
+    <div class="buttons" aria-hidden="false">
+      <button id="yesBtn" class="btn yes" onclick="goFinal()">YES 💘</button>
+      <button id="noBtn" class="btn no floating">NO 😅</button>
+    </div>
+
+    <div class="hint">Try to click the NO button — it's a little shy 😄 (both choices go next)</div>
+  </div>
+
+<script>
+  const noBtn = document.getElementById('noBtn');
+  const yesBtn = document.getElementById('yesBtn');
+
+  // Make NO evade the cursor on hover/touch
+  noBtn.addEventListener('mouseenter', evade);
+  noBtn.addEventListener('touchstart', evade);
+
+  function evade(e){
+    // briefly jump to a random position within the viewport of the parent panel
+    const parent = noBtn.parentElement;
+    const rect = parent.getBoundingClientRect();
+    const maxX = rect.width - noBtn.offsetWidth - 10;
+    const maxY = rect.height - noBtn.offsetHeight - 10;
+    const x = Math.floor(Math.random() * maxX) - (rect.width/4);
+    const y = Math.floor(Math.random() * maxY) - (rect.height/8);
+
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    // remove transform after a bit so float animation continues
+    setTimeout(()=> {
+      noBtn.style.transform = '';
+    }, 900);
+  }
+
+  // Both buttons go to final page
+  yesBtn.addEventListener('click', goFinal);
+  noBtn.addEventListener('click', goFinal);
+
+  function goFinal(){
+    // small delay for effect
+    setTimeout(()=> { window.location.href = 'final.html'; }, 160);
+  }
+
+  // Accessibility: allow keyboard to press no/yes
+  noBtn.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') goFinal();});
+  yesBtn.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') goFinal();});
+</script>
+</body>
+</html>
